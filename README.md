@@ -8,3 +8,6 @@ How to Run The Applicaiton.
 Install NodeJS and NPM. Browse to the directory where the files are extracted. Open terminal or cmd and Run the below commands.
   1. npm install
   2. npm start
+
+Goto : http://localhost:8089 to Browse the Applicaiton.
+Goto : http://localhost:8089/ms/mock?name=james to see a demo mock service up and running.
