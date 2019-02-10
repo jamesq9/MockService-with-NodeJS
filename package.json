@@ -1,0 +1,24 @@
+{
+  "name": "mockservice",
+  "version": "1.0.0",
+  "description": "This is a Mock Service",
+  "main": "server.js",
+  "nodemonConfig": {
+    "ignore": [
+      "db/*.json"
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./server.js"
+  },
+  "author": "JBALLARI",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.9",
+    "xml2js": "^0.4.19"
+  }
+}

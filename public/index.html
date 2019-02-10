@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+ 
+
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/alertify.css">
+    <link rel="stylesheet" href="css/styles.css">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+	<title>Mock Services</title>
+</head> 
+<body class="myBody" style="display:none;">
+	<div id="myApp" class="container">
+	
+	
+		<!-- Navigation Bar-->
+		<nav class="navbar navbar-dark bg-danger">
+			<a class="navbar-brand" href="#" v-on:click="turnOffEdit">
+			<img src="/img/icon-advanced-controls.png" width="30" height="30" alt="">
+			Mock Service</a>
+			<form class="form-inline">
+				<input class="form-control mr-sm-2"  type="search" placeholder="Service Name" aria-label="Name" v-if="!editMode" v-model="quickAdd">
+				<button  class="btn btn-success my-2 my-sm-0" type="button" v-if="!editMode"  v-on:click="addService">Quick Add</button>
+			</form>
+		</nav>
+		
+		
+		<!--- All Services List -->
+		<div id="allServices" class="myPadding"  v-if="!editMode">
+			<input class="form-control myPadding" type="text" placeholder="Search service.."  v-model="searchService"/>
+				<div class="card-columns myPadding">
+					<div class="card" v-for="(data,index) in filteredServiceMDList">
+						<div class="card-body">
+						  <h5 class="card-title">/ms/{{data.n}}</h5>
+						  <p class="card-text">{{data.d}}</p>
+						  <a href="#" class="btn btn-primary" v-on:click="editService(data.n)">Edit</a>
+						  <a href="#" class="btn btn-danger" v-on:click="deleteService(data.n)">Delete</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Edit Service -->
+		<div id="editService" class="myPadding myBorder"  v-if="editMode">
+			<h2> {{serviceData.name.toLocaleUpperCase()}}
+				<small class="text-right" style="font-size:40%;"> version: {{serviceData.version}}.0 </small>
+			</h2>
+			<span><small>{{serviceData.desc}}</small></span>
+			<hr/>
+			
+			<div class="row justify-content-md-center form-group">
+				 <label class="col-2" style="text-align:right;">Input Type:</label>
+				 <select class="col-2" v-model="serviceData.requestType">
+					<option value="json">JSON</option>
+					<option value="xml">XML</option>
+					<option value="raw">RAW</option>
+				</select>
+				<label class="col-3" style="text-align:right;">Output Type:</label>
+				 <select class="col-2" v-model="serviceData.responseType">
+					<option value="json">JSON</option>
+					<option value="xml">XML</option>
+					<option value="raw">RAW</option>
+				</select>
+			</div>
+			
+			<div class="row justify-content-md-center form-group">
+				 <label class="col-2">Description: </label>
+				 <textarea class="col-9" rows="1"  v-model="serviceData.desc"></textarea>
+			</div>
+			
+			<div>
+				<h4>Templates:</h4>
+				<hr/>
+				
+				<div v-for="(data,index) in serviceData.resposeBody" class="tPlace">
+				<h6>{{index+1}})</h6>
+
+					<div class="row justify-content-md-center form-group">
+						 <label class="col-2">Load Condition: </label>
+						 <textarea class="col-9" rows="1"  v-model="data.loadCondition"></textarea>
+					</div>
+					<div class="row justify-content-md-center form-group">
+						 <label class="col-2">Response Status:</label>
+						 <textarea class="col-9" rows="1"   v-model="data.responseStatus"></textarea>
+					</div>
+					<div class="row justify-content-md-center form-group">
+						 <label class="col-2">Response Body:</label>
+						 <textarea class="col-9" rows="10" v-on:blur="populateParams(index)"  v-model="data.bodyTemplate"></textarea>
+					</div>
+					
+					<h5>Params:</h5>
+					
+					<div class="row justify-content-md-center form-group" v-for="(value,key,index) in data.params">
+						 <label class="col-2" v-if="key" >{{key}}: </label>
+						 <textarea class="col-9" rows="1"   v-if="key" v-model="data.params[key]"></textarea>
+					</div>
+					
+					<div class="row justify-content-md-center form-group">
+						<button class="btn btn-danger offset-md-10 col-1" v-on:click="removeTemplate(index)">Delete</button>	
+					</div>
+					
+					
+				</div>
+				<hr/>
+				
+				<div class="row justify-content-center form-group">
+					<button class="btn btn-primary col-11" style="margin-left:5px;" v-on:click="addTemplate">Add Another Template</button>
+				</div>
+				
+				<div class="row justify-content-md-center form-group">
+					<button class="btn btn-secondary offset-md-9 col-1"  v-on:click="turnOffEdit">Exit</button>
+					<button class="btn btn-success col-1 " style="margin-left:5px;" v-on:click="UpdateService">Save</button>						
+						
+				</div>
+				
+				
+			</div>
+		</div>
+
+		
+		<div id="leeway" class="leeway">
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.slim.min.js"></script>
+<script type="text/javascript" src="js/popper.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/axios.js"></script>
+<script type="text/javascript" src="js/alertify.js"></script>
+<script src="js/work.js"></script>
+<!-- <script type="text/javascript" src="js/live.js"></script> -->
+</html>
